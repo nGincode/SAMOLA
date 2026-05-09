@@ -1,0 +1,7 @@
+services:
+  samola-web:
+    build: .
+    container_name: samola_web
+    restart: always
+    ports:
+      - "3002:80"

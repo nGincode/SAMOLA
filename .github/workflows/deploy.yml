@@ -1,0 +1,32 @@
+name: Deploy Samola Web
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Sync and Build Docker
+              run: |
+                  cd /home/samola.id/public_html/
+
+                  # Update kode dari GitHub
+                  git fetch --all
+                  git reset --hard origin/main
+                  git pull origin main
+
+                  # Rebuild dan nyalakan container
+                  docker compose up -d --build
+
+                  # Hapus image lama untuk hemat disk
+                  docker image prune -f
+
+            - name: Fix Permissions
+              run: |
+                  chown -R samol3032:samol3032 /home/samola.id/public_html
