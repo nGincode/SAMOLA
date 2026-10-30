@@ -1,3 +1,5 @@
+name: samola
+
 services:
   samola-web:
     build: .
